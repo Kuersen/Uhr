@@ -8,31 +8,61 @@
     html, body {
       height: 100%;
       margin: 0;
-      background: #000;
+      background: #cbf1f0;
       display: grid;
       place-items: center;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
+
+    .container {
+      text-align: center;
+    }
+
+    .date {
+      color: #618d5d;
+      font-size: clamp(18px, 3.5vw, 36px);
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+
     .clock {
-      color: #fff;
-      font-size: clamp(48px, 12vw, 160px);
+      color: #618d5d; /* Farbe der Uhrzeit FIX */
+      font-size: clamp(58px, 14.4vw, 192px); /* +20% */
       letter-spacing: 0.08em;
       font-variant-numeric: tabular-nums;
     }
   </style>
 </head>
 <body>
-  <div class="clock" id="clock">00:00:00</div>
+  <div class="container">
+    <div class="date" id="date">–</div>
+    <div class="clock" id="clock">00:00:00</div>
+  </div>
 
   <script>
-    function pad(n) { return String(n).padStart(2, "0"); }
-    function tick() {
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function update() {
       const d = new Date();
+
+      const dateText = d.toLocaleDateString("de-DE", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+
+      document.getElementById("date").textContent =
+        dateText + ", Gütersloh";
+
       document.getElementById("clock").textContent =
         `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
-    tick();
-    setInterval(tick, 250);
+
+    update();
+    setInterval(update, 250);
   </script>
 </body>
 </html>
